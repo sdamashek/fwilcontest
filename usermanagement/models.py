@@ -11,20 +11,22 @@ class Customer(models.Model):
     entry_type = "customer"
 
     def __unicode__(self):
-    	return "%s %s" % (self.first_name, self.last_name)
+        return "%s %s" % (self.first_name, self.last_name)
+
 
 class Category(models.Model):
-	name = models.CharField(max_length=50)
-	entry_type = "category"
+    name = models.CharField(max_length=50)
+    entry_type = "category"
 
-	def __unicode__(self):
-		return self.name
+    def __unicode__(self):
+        return self.name
+
 
 class Item(models.Model):
-	price = models.DecimalField(max_digits=16, decimal_places=2)
-	name = models.CharField(max_length=100)
-	categories = models.ManyToManyField(Category)
-	entry_type = "item"
+    price = models.DecimalField(max_digits=16, decimal_places=2)
+    name = models.CharField(max_length=100)
+    categories = models.ManyToManyField(Category)
+    entry_type = "item"
 
-	def __unicode__(self):
-		return "%s" % (self.name)
+    def __unicode__(self):
+        return "%s" % (self.name)

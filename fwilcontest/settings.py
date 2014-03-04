@@ -57,7 +57,7 @@ ROOT_URLCONF = 'fwilcontest.urls'
 WSGI_APPLICATION = 'fwilcontest.wsgi.application'
 
 TEMPLATE_DIRS = (
-        PROJECT_PATH + '/templates/' )
+    PROJECT_PATH + '/templates/')
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",
@@ -72,10 +72,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 MEDIA_ROOT = PROJECT_PATH + '/media/'
 
 
-
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -104,7 +102,7 @@ STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
     'DEFAULT_MODEL_SERIALIZER_CLASS':
-        'rest_framework.serializers.HyperlinkedModelSerializer',
+    'rest_framework.serializers.HyperlinkedModelSerializer',
 
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',),
