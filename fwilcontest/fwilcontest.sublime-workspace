@@ -1,0 +1,581 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"HT",
+				"HttpResponseRedirect"
+			],
+			[
+				"Http",
+				"HttpResponseRedirect"
+			],
+			[
+				"Cus",
+				"Customer"
+			],
+			[
+				"Item",
+				"ItemViewSet"
+			],
+			[
+				"Cat",
+				"CategorySerializer"
+			],
+			[
+				"serializ",
+				"serializer_class"
+			],
+			[
+				"User",
+				"UserSerializer"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/home/samuel/projects/fwilcontest/usermanagement/models.py",
+			"settings":
+			{
+				"buffer_size": 843,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "from django.shortcuts import render, get_object_or_404\nfrom django.http import HttpResponse, HttpResponseRedirect\nfrom rest_framework import viewsets\nfrom django.contrib.auth import authenticate,login,logout\nfrom django.contrib.auth.models import User\nfrom django.contrib.auth.decorators import login_required\nfrom django.contrib import messages\nfrom hashlib import sha256\n\nfrom usermanagement.models import Category, Item, Customer\nfrom usermanagement.serializers import UserSerializer, CategorySerializer, ItemSerializer, CustomerSerializer\nfrom usermanagement.tables import *\nfrom usermanagement.forms import *\n\ndef index(request):\n	return render(request, \"index.html\")\n\n@login_required\ndef manage(request):\n	users = UserTable(User.objects.all()[:5],sortable=False)\n	categories = CategoryTable(Category.objects.all()[:5],sortable=False)\n	items = ItemTable(Item.objects.all()[:5],sortable=False)\n	customers = CustomerTable(Customer.objects.all()[:5],sortable=False)\n	context = {'users':users, 'categories':categories, 'items':items, 'customers':customers}\n	return render(request, \"manage.html\", context)\n\n@login_required\ndef add_edit_user(request, id=None):\n	if id:\n		user = get_object_or_404(User, id=id)\n	else:\n		user = User()\n\n	if request.method == 'POST':\n		form = UserForm(request.POST, instance=user)\n		if form.is_valid():\n			form.save()\n\n			return HttpResponseRedirect('/manage/')\n\n	else:\n		form = UserForm(instance=user)\n\n	return render(request, \"userform.html\", {'form':form})\n\n@login_required\ndef logout_view(request):\n	logout(request)\n	messages.add_message(request, messages.INFO, 'Logged out successfully.')\n	return HttpResponseRedirect(\"/\")\n\nclass UserViewSet(viewsets.ModelViewSet):\n	queryset = User.objects.all()\n	serializer_class = UserSerializer\n\nclass CategoryViewSet(viewsets.ModelViewSet):\n	queryset = Category.objects.all()\n	serializer_class = CategorySerializer\n\nclass ItemViewSet(viewsets.ModelViewSet):\n	queryset = Item.objects.all()\n	serializer_class = ItemSerializer\n\nclass CustomerViewSet(viewsets.ModelViewSet):\n	queryset = Customer.objects.all()\n	serializer_class = CustomerSerializer\n",
+			"file": "/home/samuel/projects/fwilcontest/usermanagement/views.py",
+			"file_size": 2089,
+			"file_write_time": 130383857100000000,
+			"settings":
+			{
+				"buffer_size": 2116,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/samuel/projects/fwilcontest/usermanagement/forms.py",
+			"settings":
+			{
+				"buffer_size": 638,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/samuel/projects/fwilcontest/usermanagement/tables.py",
+			"settings":
+			{
+				"buffer_size": 520,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/samuel/projects/fwilcontest/usermanagement/urls.py",
+			"settings":
+			{
+				"buffer_size": 934,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "templates/userform.html",
+			"settings":
+			{
+				"buffer_size": 300,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "templates/login.html",
+			"settings":
+			{
+				"buffer_size": 585,
+				"line_ending": "Unix",
+				"name": "{% extends \"base.html\" %}"
+			}
+		},
+		{
+			"file": "templates/base.html",
+			"settings":
+			{
+				"buffer_size": 1136,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "settings.py",
+			"settings":
+			{
+				"buffer_size": 2866,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "wsgi.py",
+			"settings":
+			{
+				"buffer_size": 397,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "Packages/Python/Python.sublime-build",
+	"command_palette":
+	{
+		"height": 292.0,
+		"selected_items":
+		[
+			[
+				"Package Control: ",
+				"Package Control: Enable Package"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/samuel/projects/fwilcontest/usermanagement/admin.py",
+		"/home/samuel/projects/fwilcontest/fwilcontest/urls.py",
+		"/home/samuel/projects/fwilcontest/usermanagement/serializers.py",
+		"/home/samuel/projects/fwilcontest/fwilcontest/templates/manage.html",
+		"/home/samuel/projects/fwilcontest/fwilcontest/templates/index.html",
+		"/home/samuel/projects/fwilcontest/fwilcontest/templates/base.html",
+		"/home/samuel/Documents/code/web/bouncerstation-web.sublime-project",
+		"/home/samuel/floobits/share/Bouncer_Station/Webapp/app.py",
+		"/home/samuel/floobits/share/Bouncer_Station/Webapp/templates/base.html",
+		"/home/samuel/floobits/share/Bouncer_Station/Webapp/templates/who.html",
+		"/home/samuel/floobits/share/Bouncer_Station/Webapp/templates/dashboard.html",
+		"/home/samuel/floobits/share/Bouncer_Station/Webapp/.floo",
+		"/home/samuel/floobits/share/Bouncer_Station/Webapp/templates/test",
+		"/home/samuel/floobits/share/Bouncer_Station/Webapp/moxy test",
+		"/home/samuel/floobits/share/Bouncer_Station/Webapp/users.conf",
+		"/home/samuel/.floorc",
+		"/home/samuel/floobits/share/Bouncer_Station/Webapp/doge is test"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"TEMPLATE_CON",
+			"#    ",
+			"log",
+			">\n"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 9,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/home/samuel/projects/fwilcontest/usermanagement/models.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 843,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								133,
+								133
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/home/samuel/projects/fwilcontest/usermanagement/views.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2116,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1330,
+								1330
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/home/samuel/projects/fwilcontest/usermanagement/forms.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 638,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								416,
+								416
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/home/samuel/projects/fwilcontest/usermanagement/tables.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 520,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								246,
+								246
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/home/samuel/projects/fwilcontest/usermanagement/urls.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 934,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								759,
+								759
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "templates/userform.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 300,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								108,
+								108
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "templates/login.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 585,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								490,
+								490
+							]
+						],
+						"settings":
+						{
+							"auto_name": "{% extends \"base.html\" %}",
+							"syntax": "Packages/HTML/HTML.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "templates/base.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1136,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								355,
+								355
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "settings.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2866,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1324,
+								1324
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 335.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "wsgi.py",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 397,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								397,
+								397
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.git":
+	{
+		"height": 100.0
+	},
+	"project": "fwilcontest.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
